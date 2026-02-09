@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "planner-three"
+  },
+  "targets": {
+    "planner-three": {
+      "hosting": {
+        "app": [
+          "planner-three"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

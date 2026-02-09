@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { Session } from '@supabase/supabase-js';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { Platform } from 'react-native';
 import { supabase } from '../lib/supabase';
 
 interface AuthState {
@@ -28,6 +28,18 @@ export function useAuthProvider(): AuthState {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (Platform.OS !== 'web') {
+      import('@react-native-google-signin/google-signin')
+        .then(({ GoogleSignin }) => {
+          GoogleSignin.configure({
+            webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
+          });
+        })
+        .catch(() => {
+          // Keep app usable even if native Google config fails.
+        });
+    }
+
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setLoading(false);
@@ -41,22 +53,34 @@ export function useAuthProvider(): AuthState {
   }, []);
 
   const signIn = useCallback(async () => {
+    if (Platform.OS === 'web') {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: window.location.origin,
+        },
+      });
+      if (error) throw error;
+      return;
+    }
+
+    const { GoogleSignin } = await import('@react-native-google-signin/google-signin');
     await GoogleSignin.hasPlayServices();
     const response = await GoogleSignin.signIn();
-    console.log('Google Sign-In response:', JSON.stringify(response, null, 2));
     const idToken = response.data?.idToken;
     if (!idToken) throw new Error('No ID token from Google Sign-In');
 
-    const { error } = await supabase.auth.signInWithIdToken({
-      provider: 'google',
-      token: idToken,
-    });
+    const { error } = await supabase.auth.signInWithIdToken({ provider: 'google', token: idToken });
     if (error) throw error;
   }, []);
 
   const signOut = useCallback(async () => {
     await supabase.auth.signOut();
-    await GoogleSignin.signOut();
+
+    if (Platform.OS !== 'web') {
+      const { GoogleSignin } = await import('@react-native-google-signin/google-signin');
+      await GoogleSignin.signOut();
+    }
   }, []);
 
   const eraseAllData = useCallback(async () => {
