@@ -54,12 +54,17 @@ export default function ProfileScreen() {
           <Pressable onPress={signOut} style={styles.actionButton}>
             <Text style={styles.actionText}>Log Out</Text>
           </Pressable>
+        </View>
 
+        <View style={styles.spacer} />
+
+        {/* Destructive — pinned to bottom */}
+        <View style={styles.eraseSection}>
           <Pressable
             onPress={() => setEraseModalVisible(true)}
-            style={[styles.actionButton, styles.destructiveButton]}
+            style={styles.eraseButton}
           >
-            <Text style={styles.destructiveText}>Erase All Data</Text>
+            <Text style={styles.eraseText}>Erase All Data</Text>
           </Pressable>
         </View>
 
@@ -194,13 +199,21 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
   },
-  destructiveButton: {
-    borderColor: 'rgba(248, 113, 113, 0.4)',
+  spacer: {
+    flex: 1,
   },
-  destructiveText: {
+  eraseSection: {
+    alignItems: 'center',
+    paddingBottom: 16,
+  },
+  eraseButton: {
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+  },
+  eraseText: {
     color: ACCENT.error,
-    fontSize: 16,
-    fontWeight: '500',
+    fontSize: 13,
+    opacity: 0.7,
   },
   modalOverlay: {
     flex: 1,
