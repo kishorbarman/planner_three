@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "name": "Three",
+    "slug": "three-planner",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "scheme": "three-planner",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1E1B4B"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.three.planner"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#1E1B4B"
+      },
+      "edgeToEdgeEnabled": true,
+      "package": "com.three.planner",
+      "googleServicesFile": "./google-services.json"
+    },
+    "plugins": [
+      "expo-router",
+      "@react-native-google-signin/google-signin"
+    ]
+  }
+}
