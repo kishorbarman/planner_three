@@ -6,6 +6,8 @@ import { SolarBackground } from '../../components/SolarBackground';
 import { useAuth } from '../../hooks/useAuth';
 import { TEXT, GLASS, ACCENT } from '../../constants/colors';
 
+const HOME = '/login';
+
 export default function ProfileScreen() {
   const { session, signOut, eraseAllData } = useAuth();
   const router = useRouter();
@@ -17,10 +19,16 @@ export default function ProfileScreen() {
   const avatarUrl = session?.user?.user_metadata?.avatar_url;
   const initial = email.charAt(0).toUpperCase();
 
+  const handleSignOut = async () => {
+    await signOut();
+    router.replace(HOME as any);
+  };
+
   const handleErase = async () => {
     setErasing(true);
     try {
       await eraseAllData();
+      router.replace(HOME as any);
     } catch {
       setErasing(false);
     }
@@ -51,7 +59,7 @@ export default function ProfileScreen() {
 
         {/* Actions */}
         <View style={styles.actions}>
-          <Pressable onPress={signOut} style={styles.actionButton}>
+          <Pressable onPress={handleSignOut} style={styles.actionButton}>
             <Text style={styles.actionText}>Log Out</Text>
           </Pressable>
         </View>

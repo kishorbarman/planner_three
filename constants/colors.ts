@@ -1,10 +1,10 @@
 import { TimeOfDay } from '../types';
 
 export const SOLAR_GRADIENTS: Record<TimeOfDay, [string, string, string]> = {
-  morning: ['#4A90D9', '#C8A96E', '#D4A853'],
-  midday: ['#D4A853', '#CC8E3A', '#D98B2B'],
-  evening: ['#CC8E3A', '#A855F7', '#4C1D95'],
-  night: ['#1E1B4B', '#312E81', '#1E1B4B'],
+  morning: ['#B8D4F0', '#F0D8C8', '#F0C8A0'],
+  midday: ['#7BBCE8', '#A8D4C8', '#E8D4A0'],
+  evening: ['#E8B870', '#D87890', '#906898'],
+  night: ['#384878', '#506090', '#384878'],
 };
 
 export const GLASS = {
